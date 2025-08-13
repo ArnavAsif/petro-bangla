@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Petro Bangla Pricing System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -14,66 +15,123 @@
 
         body {
             min-height: 100vh;
-            background: radial-gradient(circle at top left, #4a148c, #311b92 40%, #1a237e);
+            background: radial-gradient(circle at top left, #0a2463, #1a237e 40%, #0d47a1);
             color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 2rem;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
+        }
+
+        /* Government seal animation */
+        .seal {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            animation: sealPulse 8s infinite alternate;
+        }
+
+        .seal::before {
+
+            content: "GOV";
+            font-size: 2rem;
+            font-weight: bold;
+            color: rgba(255, 215, 0, 0.5);
+            animation: sealRotate 20s linear infinite;
+        }
+        @keyframes sealPulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(1.1); opacity: 0.9; }
+        }
+        @keyframes sealRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Document stamp effect */
+        .stamp {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 2px dashed rgba(255, 0, 0, 0.3);
+            transform: rotate(15deg);
+            animation: stampAppear 6s infinite alternate;
+            opacity: 0;
+        }
+        @keyframes stampAppear {
+            0%, 70% { opacity: 0; transform: rotate(15deg) scale(0.8); }
+            100% { opacity: 0.6; transform: rotate(15deg) scale(1); }
+        }
+
+        /* Official document lines background */
+        .document-line {
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            z-index: 0;
         }
 
         /* Animated gradient overlay */
         .animated-bg {
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(103,58,183,0.3), rgba(156,39,176,0.2), rgba(63,81,181,0.3));
+            background: linear-gradient(135deg, rgba(13,71,161,0.3), rgba(21,101,192,0.2), rgba(13,71,161,0.3));
             animation: bgShift 15s ease-in-out infinite alternate;
             z-index: 0;
         }
 
         @keyframes bgShift {
             0% { filter: hue-rotate(0deg) brightness(1); }
-            50% { filter: hue-rotate(30deg) brightness(1.2); }
-            100% { filter: hue-rotate(-30deg) brightness(1); }
+            50% { filter: hue-rotate(10deg) brightness(1.1); }
+            100% { filter: hue-rotate(-10deg) brightness(1); }
         }
 
-        /* Energy wave effect */
+        /* Energy wave effect - more official looking */
         .energy-wave {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 200%;
-            height: 200px;
-            background: rgba(255,255,255,0.05);
+            height: 100px;
+            background: rgba(255,255,255,0.03);
             border-radius: 100% 50%;
-            animation: waveMove 8s linear infinite;
+            animation: waveMove 10s linear infinite;
             z-index: 0;
         }
         .energy-wave.delay {
-            animation-delay: -4s;
-            opacity: 0.6;
+            animation-delay: -5s;
+            opacity: 0.4;
+            height: 80px;
         }
         @keyframes waveMove {
             0% { transform: translateX(0) translateY(0) rotate(0deg); }
-            50% { transform: translateX(-25%) translateY(-10px) rotate(2deg); }
+            50% { transform: translateX(-25%) translateY(-5px) rotate(1deg); }
             100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
         }
 
-        /* Data pulse lines */
+        /* Data pulse lines - more subtle */
         .data-line {
             position: absolute;
             top: 30%;
             width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: lineMove 3s linear infinite;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: lineMove 4s linear infinite;
             z-index: 0;
         }
         .data-line.delay {
             top: 60%;
-            animation-delay: 1.5s;
+            animation-delay: 2s;
         }
         @keyframes lineMove {
             from { transform: translateX(-100%); }
@@ -84,26 +142,26 @@
         .liquid-shape {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             filter: blur(20px);
             z-index: 0;
-            animation: liquidMove 15s infinite alternate ease-in-out;
+            animation: liquidMove 20s infinite alternate ease-in-out;
         }
 
         .bubble {
             position: absolute;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
             border-radius: 50%;
             z-index: 0;
-            animation: floatBubble 15s infinite linear;
+            animation: floatBubble 20s infinite linear;
         }
 
-        /* Rotating rings */
+        /* Rotating rings - more subtle */
         .ring {
             position: absolute;
-            border: 2px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.03);
             border-radius: 50%;
-            animation: rotateRing 25s linear infinite;
+            animation: rotateRing 30s linear infinite;
             z-index: 0;
         }
         @keyframes rotateRing {
@@ -116,43 +174,47 @@
             width: 100%;
             max-width: 1200px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             position: relative;
             z-index: 10;
+            padding: 1rem;
         }
 
         /* Left section */
         .left-section {
             flex: 1;
-            padding-right: 2rem;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
             animation: fadeInLeft 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             opacity: 0;
         }
 
         .main-title {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
             color: #ffffff;
             line-height: 1.2;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             animation: titleFloat 8s infinite ease-in-out;
         }
 
         .sub-title {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 500;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             color: #bbdefb;
             animation: subtitleFloat 8s infinite ease-in-out 0.5s;
         }
 
         .description {
-            font-size: 1.1rem;
+            font-size: 1rem;
             line-height: 1.6;
             max-width: 600px;
             color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 2rem;
+            margin: 0 auto 2rem;
             animation: textFloat 8s infinite ease-in-out 1s;
         }
 
@@ -160,38 +222,65 @@
         .login-container {
             width: 100%;
             max-width: 400px;
-            padding: 2.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             animation: floatIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s forwards,
-                       glowPulse 6s ease-in-out infinite;
+                       glowPulse 8s ease-in-out infinite;
             opacity: 0;
             position: relative;
             overflow: hidden;
         }
         @keyframes glowPulse {
-            0%, 100% { box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2); }
-            50% { box-shadow: 0 25px 45px rgba(255, 255, 255, 0.15); }
+            0%, 100% { box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); }
+            50% { box-shadow: 0 15px 30px rgba(255, 255, 255, 0.1); }
         }
 
-        .login-container:hover {
-            transform: translateY(-10px) rotate(1deg);
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+        .login-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ffc107, #f44336, #3f51b5, #4caf50);
+            animation: borderFlow 8s linear infinite;
+            background-size: 400% 100%;
+        }
+        @keyframes borderFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 400% 50%; }
         }
 
         .login-title {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: #ffffff;
             margin-bottom: 1.5rem;
             text-align: center;
             font-weight: 600;
-            animation: textGlow 3s infinite alternate;
+            position: relative;
+        }
+
+        .login-title::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #2196F3, #00BCD4);
+            margin: 0.5rem auto 0;
+            animation: underlinePulse 3s infinite ease-in-out;
+        }
+        @keyframes underlinePulse {
+            0%, 100% { width: 60px; opacity: 1; }
+            50% { width: 80px; opacity: 0.8; }
         }
 
         .input-group {
             margin-bottom: 1.5rem;
+            position: relative;
         }
 
         .input-group label {
@@ -199,38 +288,79 @@
             margin-bottom: 0.5rem;
             color: #bbdefb;
             font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .input-group input {
             width: 100%;
             padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
+            border-radius: 4px;
             font-size: 1rem;
             color: white;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #2196F3;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
         }
 
         .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .input-group i {
+            position: absolute;
+            right: 15px;
+            top: 40px;
             color: rgba(255, 255, 255, 0.5);
         }
 
         .login-btn {
             width: 100%;
             padding: 12px;
-            background: linear-gradient(135deg, #7b1fa2, #5e35b1);
+            background: linear-gradient(135deg, #1565C0, #0D47A1);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .login-btn:hover {
-            background: linear-gradient(135deg, #6a1b9a, #4527a0);
+            background: linear-gradient(135deg, #0D47A1, #1565C0);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
         }
 
         .login-btn .spinner {
@@ -262,47 +392,131 @@
             color: #bbdefb;
             font-size: 0.9rem;
             text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: #64B5F6;
+            text-decoration: underline;
+        }
+
+        .security-info {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .security-info i {
+            margin-right: 5px;
+            color: #4CAF50;
         }
 
         /* Animations */
         @keyframes fadeInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
+            from { opacity: 0; transform: translateX(-30px); }
             to { opacity: 1; transform: translateX(0); }
         }
         @keyframes floatIn {
-            from { opacity: 0; transform: translateY(30px) rotate(5deg); }
-            to { opacity: 1; transform: translateY(0) rotate(0deg); }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes liquidMove {
             0% { transform: translate(0, 0) rotate(0deg); border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%; }
-            50% { transform: translate(50px, 30px) rotate(180deg); border-radius: 60% 40% 40% 60% / 40% 60% 40% 60%; }
+            50% { transform: translate(30px, 20px) rotate(180deg); border-radius: 60% 40% 40% 60% / 40% 60% 40% 60%; }
             100% { transform: translate(0, 0) rotate(360deg); border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%; }
         }
         @keyframes floatBubble {
-            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.8; }
-            50% { transform: translateY(-100px) translateX(50px) scale(1.1); opacity: 1; }
-            100% { transform: translateY(-200px) translateX(0) scale(1); opacity: 0; }
-        }
-        @keyframes textGlow {
-            from { text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); }
-            to { text-shadow: 0 0 15px rgba(255, 255, 255, 0.6); }
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-80px) translateX(30px) scale(1.05); opacity: 0.8; }
+            100% { transform: translateY(-160px) translateX(0) scale(1); opacity: 0; }
         }
         @keyframes titleFloat {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-5px); }
         }
         @keyframes subtitleFloat {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-4px); }
         }
         @keyframes textFloat {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            50% { transform: translateY(-3px); }
+        }
+
+        /* Responsive styles */
+        @media (min-width: 768px) {
+            .content {
+                flex-direction: row;
+                align-items: center;
+            }
+            .left-section {
+                text-align: left;
+                padding-right: 2rem;
+                margin-bottom: 0;
+            }
+            .main-title {
+                font-size: 3rem;
+            }
+            .sub-title {
+                font-size: 1.8rem;
+            }
+            .description {
+                font-size: 1.1rem;
+                margin: 0 0 2rem 0;
+            }
+            .login-container {
+                padding: 2.5rem;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .main-title {
+                font-size: 3.5rem;
+            }
+            .sub-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Print styles for government documents */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .login-container {
+                background: white !important;
+                color: black !important;
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+            }
+            .animated-bg, .energy-wave, .data-line, 
+            .liquid-shape, .bubble, .ring, .seal, .stamp {
+                display: none !important;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Government seal -->
+    <div class="seal" style="top: 20%; left: 10%;"></div>
+    <div class="seal" style="bottom: 20%; right: 10%; animation-delay: 2s;"></div>
+
+    <!-- Document stamps -->
+    <div class="stamp" style="top: 30%; right: 15%; animation-delay: 1s;"></div>
+    <div class="stamp" style="bottom: 30%; left: 15%; animation-delay: 3s;"></div>
+
+    <!-- Document lines -->
+    <div class="document-line" style="top: 20%;"></div>
+    <div class="document-line" style="top: 40%;"></div>
+    <div class="document-line" style="top: 60%;"></div>
+    <div class="document-line" style="top: 80%;"></div>
+
     <!-- Animated gradient overlay -->
     <div class="animated-bg"></div>
 
@@ -313,51 +527,60 @@
     <div class="data-line delay"></div>
 
     <!-- Existing shapes -->
-    <div class="liquid-shape" style="width: 500px; height: 500px; top: -200px; left: -200px;"></div>
-    <div class="liquid-shape" style="width: 400px; height: 400px; bottom: -150px; right: -150px;"></div>
-    <div class="liquid-shape" style="width: 300px; height: 300px; top: 30%; right: 20%;"></div>
+    <div class="liquid-shape" style="width: 400px; height: 400px; top: -150px; left: -150px;"></div>
+    <div class="liquid-shape" style="width: 300px; height: 300px; bottom: -100px; right: -100px;"></div>
+    <div class="liquid-shape" style="width: 200px; height: 200px; top: 30%; right: 20%;"></div>
 
     <!-- Rotating rings -->
-    <div class="ring" style="width: 600px; height: 600px; top: -100px; left: -100px;"></div>
-    <div class="ring" style="width: 800px; height: 800px; bottom: -200px; right: -200px; animation-duration: 40s;"></div>
+    <div class="ring" style="width: 500px; height: 500px; top: -80px; left: -80px;"></div>
+    <div class="ring" style="width: 600px; height: 600px; bottom: -150px; right: -150px; animation-duration: 40s;"></div>
 
     <!-- Bubbles -->
-    <div class="bubble" style="width: 20px; height: 20px; bottom: -20px; left: 10%;"></div>
-    <div class="bubble" style="width: 30px; height: 30px; bottom: -30px; left: 30%;"></div>
-    <div class="bubble" style="width: 25px; height: 25px; bottom: -25px; left: 50%;"></div>
-    <div class="bubble" style="width: 15px; height: 15px; bottom: -15px; left: 70%;"></div>
-    <div class="bubble" style="width: 35px; height: 35px; bottom: -35px; left: 90%;"></div>
+    <div class="bubble" style="width: 15px; height: 15px; bottom: -15px; left: 10%;"></div>
+    <div class="bubble" style="width: 20px; height: 20px; bottom: -20px; left: 30%;"></div>
+    <div class="bubble" style="width: 18px; height: 18px; bottom: -18px; left: 50%;"></div>
+    <div class="bubble" style="width: 12px; height: 12px; bottom: -12px; left: 70%;"></div>
+    <div class="bubble" style="width: 25px; height: 25px; bottom: -25px; left: 90%;"></div>
 
     <!-- Main content -->
     <div class="content">
         <div class="left-section">
             <h1 class="main-title">Petro Bangla</h1>
-            <h2 class="sub-title">Pricing System</h2>
+            <h2 class="sub-title">Government Pricing System</h2>
             <p class="description">
-                Welcome to Petro Bangla's advanced Pricing System platform. 
-                Our comprehensive solution provides real-time fuel pricing analytics, 
-                inventory management, and market trend visualization to help you make 
-                informed decisions in Bangladesh's dynamic energy sector.
+                Secure access to Petro Bangla's official Pricing Management System. 
+                Authorized personnel only. All activities are monitored and logged 
+                for security purposes as per Government of Bangladesh regulations.
             </p>
+            <div class="security-info">
+                <i class="fas fa-lock"></i>
+                <span>SSL Secured Connection • 256-bit Encryption</span>
+            </div>
         </div>
         
         <!-- Floating login section -->
         <div class="login-container">
-            <h2 class="login-title">Login to Your Account</h2>
+            <h2 class="login-title">Official Login Portal</h2>
             <form id="loginForm">
                 <div class="input-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" placeholder="Enter your username" required>
+                    <label for="username">User ID</label>
+                    <input type="text" id="username" placeholder="Enter your User ID" required>
+                    <i class="fas fa-user"></i>
                 </div>
                 <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter your password" required>
+                    <label for="password">Security Credentials</label>
+                    <input type="password" id="password" placeholder="Enter your secure password" required>
+                    <i class="fas fa-key"></i>
                 </div>
                 <button type="submit" class="login-btn">
-                    <span class="btn-text">Login</span>
+                    <span class="btn-text">Verify Identity</span>
                     <span class="spinner"></span>
                 </button>
-                <a href="#" class="forgot-password">Forgot Password?</a>
+                <a href="#" class="forgot-password">Request Credential Reset</a>
+                <div class="security-info">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Ministry of Power, Energy & Mineral Resources</span>
+                </div>
             </form>
         </div>
     </div>
@@ -366,15 +589,24 @@
         document.addEventListener('DOMContentLoaded', function() {
             const body = document.querySelector('body');
 
+            // Create document lines
+            for (let i = 0; i < 10; i++) {
+                const line = document.createElement('div');
+                line.className = 'document-line';
+                line.style.top = `${10 + (i * 8)}%`;
+                line.style.animationDelay = `${i * 0.2}s`;
+                body.appendChild(line);
+            }
+
             // More liquid shapes
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 3; i++) {
                 const shape = document.createElement('div');
                 shape.className = 'liquid-shape';
-                const size = Math.floor(Math.random() * 300) + 200;
+                const size = Math.floor(Math.random() * 200) + 150;
                 const top = Math.random() * 100;
                 const left = Math.random() * 100;
                 const delay = Math.random() * 5;
-                const duration = Math.floor(Math.random() * 20) + 10;
+                const duration = Math.floor(Math.random() * 25) + 15;
                 shape.style.width = `${size}px`;
                 shape.style.height = `${size}px`;
                 shape.style.top = `${top}%`;
@@ -385,21 +617,34 @@
             }
 
             // More bubbles
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 15; i++) {
                 const bubble = document.createElement('div');
                 bubble.className = 'bubble';
-                const size = Math.floor(Math.random() * 30) + 10;
+                const size = Math.floor(Math.random() * 20) + 8;
                 const left = Math.random() * 100;
                 const delay = Math.random() * 5;
-                const duration = Math.floor(Math.random() * 15) + 10;
+                const duration = Math.floor(Math.random() * 20) + 15;
                 bubble.style.width = `${size}px`;
                 bubble.style.height = `${size}px`;
                 bubble.style.bottom = `-${size}px`;
                 bubble.style.left = `${left}%`;
                 bubble.style.animationDelay = `${delay}s`;
                 bubble.style.animationDuration = `${duration}s`;
-                bubble.style.opacity = Math.random() * 0.5 + 0.1;
+                bubble.style.opacity = Math.random() * 0.4 + 0.1;
                 body.appendChild(bubble);
+            }
+
+            // Add some random stamps
+            for (let i = 0; i < 2; i++) {
+                const stamp = document.createElement('div');
+                stamp.className = 'stamp';
+                const top = Math.random() * 80 + 10;
+                const left = Math.random() * 80 + 10;
+                const delay = Math.random() * 6;
+                stamp.style.top = `${top}%`;
+                stamp.style.left = `${left}%`;
+                stamp.style.animationDelay = `${delay}s`;
+                body.appendChild(stamp);
             }
         });
 
@@ -407,10 +652,51 @@
             e.preventDefault();
             const loginBtn = document.querySelector('.login-btn');
             loginBtn.classList.add('loading');
+            
+            // Simulate government system authentication delay
             setTimeout(function() {
                 loginBtn.classList.remove('loading');
-                alert("Login successful! Redirecting...");
-            }, 1500);
+                
+                // Show official-looking verification message
+                const verificationMessages = [
+                    "Identity verification in progress...",
+                    "Checking security clearance...",
+                    "Validating credentials with central database...",
+                    "Granting access privileges..."
+                ];
+                
+                let currentMessage = 0;
+                const originalText = loginBtn.querySelector('.btn-text').textContent;
+                
+                const messageInterval = setInterval(() => {
+                    loginBtn.querySelector('.btn-text').textContent = verificationMessages[currentMessage];
+                    currentMessage++;
+                    
+                    if (currentMessage >= verificationMessages.length) {
+                        clearInterval(messageInterval);
+                        loginBtn.querySelector('.btn-text').textContent = "Access Granted";
+                        setTimeout(() => {
+                            alert("Authentication successful. Redirecting to secure dashboard...");
+                            loginBtn.querySelector('.btn-text').textContent = originalText;
+                        }, 1000);
+                    }
+                }, 800);
+            }, 2000);
+        });
+
+        // Add responsive behavior for window resize
+        window.addEventListener('resize', function() {
+            // Adjust elements based on screen size
+            const seals = document.querySelectorAll('.seal');
+            seals.forEach(seal => {
+                if (window.innerWidth < 768) {
+                    seal.style.width = '100px';
+                    seal.style.height = '100px';
+                } else {
+                    seal.style.width = '150px';
+                    seal.style.height = '150px';
+                }
+            });
         });
     </script>
 </body>
